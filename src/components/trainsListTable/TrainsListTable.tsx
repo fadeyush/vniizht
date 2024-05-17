@@ -1,8 +1,22 @@
 import React, { FC } from 'react';
+import classes from './TrainsListTable.module.scss'
 import { useAppSelector } from '../../hooks/redux';
+import { MyTableTheadProps, tableValueEnum } from '../../types/table';
+import MyTable from '../../UI/MyTable/MyTable';
 
 const TrainsListTable: FC = () => {
     const {trainsList, isLoading, error} = useAppSelector(state => state.trainsListReducer);
+    const tableTrainsHead: MyTableTheadProps[] = [
+        {id: `TrainColumnName`, title: 'Название'},
+        {id: `TrainColumnDescription`, title: 'Описание'},
+    ]
+    const tableCharacteristicsHead: MyTableTheadProps[] = [
+        {id: `TrainColumnEngineAmperage`, title: 'Тип двигателя'},
+        {id: `TrainColumnForce`, title: 'Сила тяги'},
+        {id: `TrainColumnSpeed`, title: 'Скорость'},
+    ]
+
+    console.log(trainsList)
     return (
         <div>
              {isLoading ?  
@@ -10,10 +24,13 @@ const TrainsListTable: FC = () => {
             error ? 
                 <h2>{error}</h2> 
             :
-            <section>
+            <section className={classes.trainsListTable}>
+               <MyTable theadArr={tableTrainsHead} title='Поезда' tbodyArr={trainsList} tableValue={tableValueEnum.train}/>
+               <div>
                {trainsList.map(trainElem=>
-                <div>{trainElem.name}</div>
+                <MyTable key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
                )}
+               </div>
             </section> 
             }
         </div>
