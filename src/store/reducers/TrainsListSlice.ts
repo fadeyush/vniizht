@@ -8,7 +8,7 @@ const initialState: TrainsListProps = {
 }
 
 export const trainsListSlice = createSlice({
-    name: 'productItem',
+    name: 'trainsList',
     initialState,
     reducers: {
         trainsListFetching(state) {

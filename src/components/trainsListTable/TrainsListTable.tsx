@@ -6,6 +6,7 @@ import MyTable from '../../UI/MyTable/MyTable';
 
 const TrainsListTable: FC = () => {
     const {trainsList, isLoading, error} = useAppSelector(state => state.trainsListReducer);
+
     const tableTrainsHead: MyTableTheadProps[] = [
         {id: `TrainColumnName`, title: 'Название'},
         {id: `TrainColumnDescription`, title: 'Описание'},
@@ -27,9 +28,9 @@ const TrainsListTable: FC = () => {
             <section className={classes.trainsListTable}>
                <MyTable theadArr={tableTrainsHead} title='Поезда' tbodyArr={trainsList} tableValue={tableValueEnum.train}/>
                <div>
-               {trainsList.map(trainElem=>
-                <MyTable key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
-               )}
+                {trainsList.map((trainElem, i)=>
+                    <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
+                )}
                </div>
             </section> 
             }

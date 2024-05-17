@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import trainsListReducer from "./reducers/TrainsListSlice";
+import currentTrainReducer from "./reducers/CurrentTrainSlice";
 
 const rootReducer = combineReducers({
-    trainsListReducer
+    trainsListReducer,
+    currentTrainReducer
 })
 
 export const setupStore = () => {

@@ -20,4 +20,5 @@ export interface MyTableProps {
     tbodyArr?: TrainItemProps[];
     tbodyElem?: TrainItemProps;
     tableValue: string;
+    id?: number;
 }

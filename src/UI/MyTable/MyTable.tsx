@@ -1,7 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import classes from './MyTable.module.scss';
 import { MyTableProps, MyTableTbodyProps, tableValueEnum } from '../../types/table';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { currentTrainSlice } from '../../store/reducers/CurrentTrainSlice';
 
-const MyTable: FC<MyTableProps> = ({title, theadArr, tbodyElem, tbodyArr, tableValue}) => {
+const MyTable: FC<MyTableProps> = ({title, id, theadArr, tbodyElem, tbodyArr, tableValue}) => {
+    const dispatch = useAppDispatch();
+    const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
     const tableBodyArr: MyTableTbodyProps[] = [];
 
     if(tableValue === tableValueEnum.train) {
@@ -18,13 +23,18 @@ const MyTable: FC<MyTableProps> = ({title, theadArr, tbodyElem, tbodyArr, tableV
                 value: [trainElemcharacteristic.engineAmperage, trainElemcharacteristic.force, trainElemcharacteristic.speed]
             })
         )
-    }
+    }    
     
     return ( 
-        <table>
-            <caption>{title}</caption>
+        <>
+        {
+            id !== currentTrain && tableValue === tableValueEnum.characteristics ?
+            ''
+            :
+            <table id={`${id ? id : ''}`} className={classes.MyTable__active}>
+            <caption className={classes.MyTable__title}>{title}</caption>
             <thead>
-                <tr>
+                <tr className={classes.MyTable__thead}>
                     {theadArr.map((theadElem, i)=>
                         <th key={`${theadElem.id}-${i}`}>{theadElem.title}</th>
                     )}
@@ -33,13 +43,21 @@ const MyTable: FC<MyTableProps> = ({title, theadArr, tbodyElem, tbodyArr, tableV
             <tbody> 
                 {tableBodyArr.map((tbodyElem, i)=>
                     <tr key={`${tbodyElem.id}-${i}`}>
-                        {tbodyElem.value.map(value=>
-                            <th key={`${tbodyElem.id}-${value}`}>{value}</th>
-                        )}
+                        {tableValue === tableValueEnum.train ?
+                            tbodyElem.value.map(value=>
+                                <th onClick={()=>dispatch(currentTrainSlice.actions.setCurrentTrain(i+1))} key={`${tbodyElem.id}-${value}`}>{value}</th>
+                            )
+                        :
+                            tbodyElem.value.map(value=>
+                                <th key={`${tbodyElem.id}-${value}`}>{value}</th>
+                            )
+                        }
                     </tr>
                 )}
             </tbody>
-        </table>
+            </table>
+        }
+        </>
     );
 };
 
