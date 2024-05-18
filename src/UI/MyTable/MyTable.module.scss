@@ -15,12 +15,14 @@
 
     th {
         font-weight: 400;
+        box-sizing: border-box;
     }
 }
 
 .MyTable__wrapper {
     padding: 25px;
     background-color: white;
+    height: 100%;
 }
 
 .MyTable__title {

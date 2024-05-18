@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import classes from './MyTable.module.scss';
-import { MyTableProps, MyTableTbodyProps, tableValueEnum } from '../../types/table';
+import { MyTableControlledCellTbodyProps, MyTableProps, MyTableTbodyProps, tableValueEnum } from '../../types/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { currentTrainSlice } from '../../store/reducers/CurrentTrainSlice';
 import MyControlledCell from '../MyControlledCell/MyControlledCell';
@@ -9,6 +9,7 @@ const MyTable: FC<MyTableProps> = ({title, id, theadArr, tbodyElem, tbodyArr, ta
     const dispatch = useAppDispatch();
     const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
     const tableBodyArr: MyTableTbodyProps[] = [];
+    const tableBodyCharacteristicsArr: MyTableControlledCellTbodyProps[] = [];
 
     if(tableValue === tableValueEnum.train) {
         tbodyArr!.map(trainElem=>
@@ -19,9 +20,13 @@ const MyTable: FC<MyTableProps> = ({title, id, theadArr, tbodyElem, tbodyArr, ta
         )
     } else if(tableValue === tableValueEnum.characteristics) {
         tbodyElem!.characteristics.map(trainElemcharacteristic=>
-            tableBodyArr.push({
+            tableBodyCharacteristicsArr.push({
                 id: `${tbodyElem!.name}-2`,
-                value: [trainElemcharacteristic.engineAmperage, trainElemcharacteristic.force, trainElemcharacteristic.speed]
+                value: [
+                    { value: trainElemcharacteristic.engineAmperage, type: `engineAmperage`}, 
+                    { value: trainElemcharacteristic.force, type: `force`}, 
+                    { value: trainElemcharacteristic.speed, type: `speed`}
+                ],
             })
         )
     }    
@@ -45,19 +50,23 @@ const MyTable: FC<MyTableProps> = ({title, id, theadArr, tbodyElem, tbodyArr, ta
                     </tr>
                 </thead>
                 <tbody> 
-                    {tableBodyArr.map((tbodyElem, i)=>
+                {tableValue === tableValueEnum.train ?
+                    tableBodyArr.map((tbodyElem, i)=>
+                    <tr className={classes.MyTable__row} key={`${tbodyElem.id}-${i}`}>
+                            {tbodyElem.value.map(value=>
+                                <th onClick={()=>dispatch(currentTrainSlice.actions.setCurrentTrain(i+1))} key={`${tbodyElem.id}-${value}`}>{value}</th>
+                            )}
+                    </tr>
+                    )
+                    :
+                    tableBodyCharacteristicsArr.map((tbodyElem, i)=>
                         <tr className={classes.MyTable__row} key={`${tbodyElem.id}-${i}`}>
-                            {tableValue === tableValueEnum.train ?
-                                tbodyElem.value.map(value=>
-                                    <th onClick={()=>dispatch(currentTrainSlice.actions.setCurrentTrain(i+1))} key={`${tbodyElem.id}-${value}`}>{value}</th>
-                                )
-                            :
-                                tbodyElem.value.map(value=>
-                                    <MyControlledCell key={`${tbodyElem.id}-${value}`} value={value}></MyControlledCell>
-                                )
-                            }
+                                {tbodyElem.value.map(value=>
+                                    <MyControlledCell value={value.value} type={value.type} key={`${tbodyElem.id}-${value.value}`}></MyControlledCell>
+                                )}
                         </tr>
-                    )}
+                        )
+                }
                 </tbody>
                 </table>
             </div>

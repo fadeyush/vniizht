@@ -12,7 +12,7 @@ const TrainsListTable: FC = () => {
         {id: `TrainColumnDescription`, title: 'Описание'},
     ]
     const tableCharacteristicsHead: MyTableTheadProps[] = [
-        {id: `TrainColumnEngineAmperage`, title: 'Тип двигателя'},
+        {id: `TrainColumnEngineAmperage`, title: 'Ток двигателя'},
         {id: `TrainColumnForce`, title: 'Сила тяги'},
         {id: `TrainColumnSpeed`, title: 'Скорость'},
     ]
