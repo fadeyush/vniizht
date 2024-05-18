@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import classes from './MyTable.module.scss';
 import { MyTableControlledCellTbodyProps, MyTableProps, MyTableTbodyProps, tableValueEnum } from '../../types/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -62,7 +62,7 @@ const MyTable: FC<MyTableProps> = ({title, id, theadArr, tbodyElem, tbodyArr, ta
                     tableBodyCharacteristicsArr.map((tbodyElem, i)=>
                         <tr className={classes.MyTable__row} key={`${tbodyElem.id}-${i}`}>
                                 {tbodyElem.value.map(value=>
-                                    <MyControlledCell value={value.value} type={value.type} key={`${tbodyElem.id}-${value.value}`}></MyControlledCell>
+                                    <MyControlledCell i={i} value={value.value} type={value.type} key={`${tbodyElem.id}-${value.value}`}></MyControlledCell>
                                 )}
                         </tr>
                         )

@@ -6,6 +6,7 @@ import MyTable from '../../UI/MyTable/MyTable';
 
 const TrainsListTable: FC = () => {
     const {trainsList, isLoading, error} = useAppSelector(state => state.trainsListReducer);
+    const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
 
     const tableTrainsHead: MyTableTheadProps[] = [
         {id: `TrainColumnName`, title: 'Название'},
@@ -17,7 +18,17 @@ const TrainsListTable: FC = () => {
         {id: `TrainColumnSpeed`, title: 'Скорость'},
     ]
 
-    console.log(trainsList)
+    function getSpeedConsole() {
+        let speedArr: number[] = []
+        trainsList[currentTrain-1].characteristics.map((characteristic) =>
+            speedArr.push(characteristic.speed)
+        )
+        speedArr = speedArr.sort(function(a, b) {
+            return a - b;
+          })
+        console.log(speedArr.toString())
+    }
+
     return (
         <div>
              {isLoading ?  
@@ -30,6 +41,7 @@ const TrainsListTable: FC = () => {
                 {trainsList.map((trainElem, i)=>
                     <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
                 )}
+                {currentTrain !== 0 ? <button onClick={getSpeedConsole} className={classes.trainsListTable__button}>Отправить данные</button> : ''}
             </section> 
             }
         </div>

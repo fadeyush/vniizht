@@ -1,16 +1,29 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import classes from './MyControlledCell.module.scss';
 import { trainsCharacteristics } from '../../types/table';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { trainsListSlice } from '../../store/reducers/TrainsListSlice';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface MyControlledCellProps {
     value: number | string;
     type: string;
+    i: number;
 }
 
-const MyControlledCell: FC<MyControlledCellProps> = ({value, type}) => {
+const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
+    const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
     const [valid, setValid] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
+    const dispatch = useAppDispatch();
 
+    const debounced = useDebouncedCallback(
+        () => {
+            dispatch(trainsListSlice.actions.trainsListEditPerem({id: currentTrain, value: Number(inputRef!.current!.value), i}))
+        },
+        1000
+      );
+    
     useEffect(()=>{
         inputRef!.current!.value = value.toString()
     }, [])
@@ -38,6 +51,7 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type}) => {
         } else if(type === trainsCharacteristics.speed) {
             if(Number(value) >= 0 && Number.isInteger(Number(value))) {
                 setValid(true);
+                debounced()
             } else {
                 setValid(false);
             }

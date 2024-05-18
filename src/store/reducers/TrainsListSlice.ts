@@ -7,6 +7,12 @@ const initialState: TrainsListProps = {
     error: ''
 }
 
+interface PayloadActionAdd {
+    id: number;
+    value: number;
+    i: number;
+}
+
 export const trainsListSlice = createSlice({
     name: 'trainsList',
     initialState,
@@ -22,6 +28,9 @@ export const trainsListSlice = createSlice({
         trainsListFetchingError(state, action: PayloadAction<string>) {
             state.isLoading = false; 
             state.error = action.payload;
+        },
+        trainsListEditPerem(state, action: PayloadAction<PayloadActionAdd>) {
+            state.trainsList[action.payload.id - 1].characteristics[action.payload.i].speed = action.payload.value
         }
     },
 });
