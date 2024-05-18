@@ -1,25 +1,41 @@
 .MyTable {
     display: none;
-    
 }
 
 .MyTable__active {
     background-color: white;
     padding: 30px;
     border-collapse: collapse;
+    padding: 25px;
 
     thead{
         background-color: #f5f5f5;
-        border: 1px solid lightgray;
         height: 50px;
+    }
+
+    th {
+        font-weight: 400;
     }
 }
 
+.MyTable__wrapper {
+    padding: 25px;
+    background-color: white;
+}
 
 .MyTable__title {
     font-weight: 700;
     font-size: 20px;
     text-align: start;
     background-color: white;
-    padding: 30px;
+    margin-bottom: 10px;
+}
+
+
+.MyTable__row {
+    cursor: pointer;
+
+    th {
+        padding: 5px 3px;
+    }
 }

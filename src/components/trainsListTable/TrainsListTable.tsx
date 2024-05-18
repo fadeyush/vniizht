@@ -27,11 +27,9 @@ const TrainsListTable: FC = () => {
             :
             <section className={classes.trainsListTable}>
                <MyTable theadArr={tableTrainsHead} title='Поезда' tbodyArr={trainsList} tableValue={tableValueEnum.train}/>
-               <div>
                 {trainsList.map((trainElem, i)=>
                     <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
                 )}
-               </div>
             </section> 
             }
         </div>
