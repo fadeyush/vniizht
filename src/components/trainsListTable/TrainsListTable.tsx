@@ -38,10 +38,12 @@ const TrainsListTable: FC = () => {
             :
             <section className={classes.trainsListTable}>
                <MyTable theadArr={tableTrainsHead} title='Поезда' tbodyArr={trainsList} tableValue={tableValueEnum.train}/>
-                {trainsList.map((trainElem, i)=>
-                    <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue={tableValueEnum.characteristics}/>
-                )}
-                {currentTrain !== 0 ? <button onClick={getSpeedConsole} className={classes.trainsListTable__button}>Отправить данные</button> : ''}
+               <div className={classes.trainsListTable__wrapper}>
+                    {trainsList.map((trainElem, i)=>
+                        <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue= {tableValueEnum.characteristics}/>
+                    )}
+                    {currentTrain !== 0 ? <button onClick={getSpeedConsole} className={classes.trainsListTable__button}>Отправить данные</button> : ''}
+               </div>
             </section> 
             }
         </div>
