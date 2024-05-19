@@ -3,6 +3,7 @@ import classes from './MyControlledCell.module.scss';
 import { trainsCharacteristics } from '../../types/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { trainsListSlice } from '../../store/reducers/TrainsListSlice';
+import { validCellSlice } from '../../store/reducers/ValidCellSlice';
 import { useDebouncedCallback } from 'use-debounce';
 
 interface MyControlledCellProps {
@@ -19,10 +20,19 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
 
     const debounced = useDebouncedCallback(
         () => {
-            dispatch(trainsListSlice.actions.trainsListEditPerem({id: currentTrain, value: Number(inputRef!.current!.value), i}))
+            if(Number(inputRef!.current!.value)) {
+                dispatch(trainsListSlice.actions.trainsListEditPerem({id: currentTrain, value: Number(inputRef!.current!.value), i}))
+            }
         },
         1000
       );
+
+    const debouncedValid = useDebouncedCallback(
+        (value: boolean) => {
+            dispatch(validCellSlice.actions.setValidCell(value))
+        },
+        300
+    );
     
     useEffect(()=>{
         inputRef!.current!.value = value.toString()
@@ -39,20 +49,26 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
         if(type === trainsCharacteristics.force) {
             if(value.toString().includes('.') && Number(value) > 0) {
                 setValid(true);
+                debouncedValid(true)
             } else {
+                debouncedValid(false)
                 setValid(false);
             }
         } else if(type === trainsCharacteristics.engineAmperage) {
             if(Number(value) > 0 && Number.isInteger(Number(value))) {
                 setValid(true);
+                debouncedValid(true)
             } else {
-                setValid(false); 
+                debouncedValid(false)
+                setValid(false);
             }
         } else if(type === trainsCharacteristics.speed) {
             if(Number(value) >= 0 && Number.isInteger(Number(value))) {
                 setValid(true);
+                debouncedValid(true)
                 debounced()
             } else {
+                debouncedValid(false)
                 setValid(false);
             }
         }

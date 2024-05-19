@@ -7,6 +7,7 @@ import MyTable from '../../UI/MyTable/MyTable';
 const TrainsListTable: FC = () => {
     const {trainsList, isLoading, error} = useAppSelector(state => state.trainsListReducer);
     const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
+    const { validCell } = useAppSelector(state => state.validCellReducer);
 
     const tableTrainsHead: MyTableTheadProps[] = [
         {id: `TrainColumnName`, title: 'Название'},
@@ -28,7 +29,7 @@ const TrainsListTable: FC = () => {
           })
         console.log(speedArr.toString())
     }
-
+    
     return (
         <div>
              {isLoading ?  
@@ -42,7 +43,7 @@ const TrainsListTable: FC = () => {
                     {trainsList.map((trainElem, i)=>
                         <MyTable id={i + 1} key={trainElem.name} tbodyElem={trainElem} theadArr={tableCharacteristicsHead} title='Характеристики' tbodyArr={trainsList} tableValue= {tableValueEnum.characteristics}/>
                     )}
-                    {currentTrain !== 0 ? <button onClick={getSpeedConsole} className={classes.trainsListTable__button}>Отправить данные</button> : ''}
+                    {currentTrain !== 0 ? <button onClick={getSpeedConsole}  disabled={!validCell} className={classes.trainsListTable__button}>Отправить данные</button> : ''}
                </div>
             </section> 
             }

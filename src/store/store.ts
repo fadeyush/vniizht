@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import trainsListReducer from "./reducers/TrainsListSlice";
 import currentTrainReducer from "./reducers/CurrentTrainSlice";
+import validCellReducer from "./reducers/ValidCellSlice";
 
 const rootReducer = combineReducers({
     trainsListReducer,
-    currentTrainReducer
+    currentTrainReducer,
+    validCellReducer
 })
 
 export const setupStore = () => {
