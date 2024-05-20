@@ -9,6 +9,7 @@ import { MyControlledCellProps, PayloadActionEditSetValid } from '../../types/va
 
 const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i, tbodyElemId, idvalue}) => {
     const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
+    const { validCell } = useAppSelector(state => state.validCellReducer);
     const [valid, setValid] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
@@ -34,8 +35,14 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i, tbodyElemI
     );
 
     useEffect(()=>{
-        inputRef!.current!.value = value.toString()
-        dispatch(validCellSlice.actions.setValidValueCell({value: valid, id: tbodyElemId, idvalue}))
+        inputRef!.current!.value = value.toString();
+        console.log(validCell)
+        // console.log(validCell[i].validCellArr)
+        // console.log(validCell[i].validCellArr.length)
+        if(!validCell[i].validCellArr.length) {
+            console.log(i)
+            dispatch(validCellSlice.actions.setValidValueCell({value: valid, id: tbodyElemId, idvalue}))
+        }
     }, [])
     
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
