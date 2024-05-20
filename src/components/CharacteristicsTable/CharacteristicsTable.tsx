@@ -14,6 +14,9 @@ const CharacteristicsTable: FC<MyTableProps> = ({id, title, tbodyArr, theadArr, 
 
     function getSpeedConsole() {
         let speedArr: number[] = []
+        trainsList[currentTrain-1].characteristics.map((characteristic) =>
+            speedArr.push(characteristic.speed)
+        )
         speedArr = speedArr.sort(function(a, b) {
             return a - b;
           })
