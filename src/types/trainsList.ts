@@ -15,3 +15,9 @@ export interface TrainsListProps {
     isLoading: boolean;
     error: string;
 }
+
+export interface PayloadActionAdd {
+    id: number;
+    value: number;
+    i: number;
+}

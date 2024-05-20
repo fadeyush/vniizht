@@ -1,16 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TrainItemProps, TrainsListProps } from "../../types/trainsList";
+import { PayloadActionAdd, TrainItemProps, TrainsListProps } from "../../types/trainsList";
 
 const initialState: TrainsListProps = {
     trainsList: [],
     isLoading: false,
     error: ''
-}
-
-interface PayloadActionAdd {
-    id: number;
-    value: number;
-    i: number;
 }
 
 export const trainsListSlice = createSlice({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from './App';
@@ -13,6 +13,8 @@ const store = setupStore();
 
 root.render(
   <Provider store={store}>
-    <App />
+    {/* <StrictMode> */}
+      <App />
+    {/* </StrictMode> */}
   </Provider>
 );

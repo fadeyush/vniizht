@@ -1,18 +1,13 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import classes from './MyControlledCell.module.scss';
 import { trainsCharacteristics } from '../../types/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { trainsListSlice } from '../../store/reducers/TrainsListSlice';
 import { validCellSlice } from '../../store/reducers/ValidCellSlice';
 import { useDebouncedCallback } from 'use-debounce';
+import { MyControlledCellProps, PayloadActionEditSetValid } from '../../types/validCell';
 
-interface MyControlledCellProps {
-    value: number | string;
-    type: string;
-    i: number;
-}
-
-const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
+const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i, tbodyElemId, idvalue}) => {
     const { currentTrain } = useAppSelector(state => state.currentTrainReducer);
     const [valid, setValid] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -25,21 +20,27 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
             }
         },
         1000
-      );
+    );
 
     const debouncedValid = useDebouncedCallback(
-        (value: boolean) => {
-            dispatch(validCellSlice.actions.setValidCell(value))
+        (value: PayloadActionEditSetValid) => {
+            if(!valid) {
+                dispatch(validCellSlice.actions.setFalseValidCell(value))
+            } else if(valid) {
+                dispatch(validCellSlice.actions.removeFalseValidCell(value))
+            }
         },
-        300
+        500
     );
-    
+
     useEffect(()=>{
         inputRef!.current!.value = value.toString()
+        dispatch(validCellSlice.actions.setValidValueCell({value: valid, id: tbodyElemId, idvalue}))
     }, [])
     
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        getValid(inputRef.current!.value, type)
+        getValid(inputRef.current!.value, type);
+        debouncedValid({id: tbodyElemId, idvalue: idvalue})
     }
     
     const getValid = (value: number | string , type: string) => {
@@ -48,27 +49,27 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i}) => {
         }
         if(type === trainsCharacteristics.force) {
             if(value.toString().includes('.') && Number(value) > 0) {
-                setValid(true);
-                debouncedValid(true)
+                if(!valid) {
+                    setValid(true);
+                }
             } else {
-                debouncedValid(false)
                 setValid(false);
             }
         } else if(type === trainsCharacteristics.engineAmperage) {
             if(Number(value) > 0 && Number.isInteger(Number(value))) {
-                setValid(true);
-                debouncedValid(true)
+                if(!valid) {
+                    setValid(true);
+                }
             } else {
-                debouncedValid(false)
                 setValid(false);
             }
         } else if(type === trainsCharacteristics.speed) {
-            if(Number(value) >= 0 && Number.isInteger(Number(value))) {
-                setValid(true);
-                debouncedValid(true)
+            if(Number(value) >= 0 && Number.isInteger(Number(value)) ) {
+                if(!valid) {
+                    setValid(true);
+                }
                 debounced()
             } else {
-                debouncedValid(false)
                 setValid(false);
             }
         }
