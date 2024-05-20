@@ -1,3 +1,3 @@
 # vniizht
 
-### [Демо](https://fadeuysh.github.io/vniizht) версия проекта
+### [Демо](https://fadeyush.github.io/vniizht/) версия проекта
