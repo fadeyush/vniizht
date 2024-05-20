@@ -13,8 +13,6 @@ const store = setupStore();
 
 root.render(
   <Provider store={store}>
-    {/* <StrictMode> */}
-      <App />
-    {/* </StrictMode> */}
+    <App />
   </Provider>
 );

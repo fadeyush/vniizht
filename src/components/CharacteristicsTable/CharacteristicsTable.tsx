@@ -40,8 +40,6 @@ const CharacteristicsTable: FC<MyTableProps> = ({id, title, tbodyArr, theadArr, 
             }
         } 
     }, [validCell])
-    
-    // console.log(validCell)
 
     return ( 
         <>
