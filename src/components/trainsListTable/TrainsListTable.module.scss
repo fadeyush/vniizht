@@ -1,7 +1,7 @@
 .trainsListTable {
     display: flex;
-    gap: 50px;
     position: relative;
+    justify-content: space-around;
 }
 
 .trainsListTable__wrapper {

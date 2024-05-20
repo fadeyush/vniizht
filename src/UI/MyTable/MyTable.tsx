@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import classes from './MyTable.module.scss';
 import { MyTableControlledCellTbodyProps, MyTableProps, MyTableTbodyProps, tableValueEnum } from '../../types/table';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useAppDispatch } from '../../hooks/redux';
 import { currentTrainSlice } from '../../store/reducers/CurrentTrainSlice';
 import MyControlledCell from '../MyControlledCell/MyControlledCell';
 

@@ -15,11 +15,11 @@ const MyControlledCell: FC<MyControlledCellProps> = ({value, type, i, tbodyElemI
 
     const debounced = useDebouncedCallback(
         () => {
-            if(Number(inputRef!.current!.value)) {
+            if(Number(inputRef!.current!.value) || Number(inputRef!.current!.value) === 0) {
                 dispatch(trainsListSlice.actions.trainsListEditPerem({id: currentTrain, value: Number(inputRef!.current!.value), i}))
             }
         },
-        1000
+        600
     );
 
     const debouncedValid = useDebouncedCallback(

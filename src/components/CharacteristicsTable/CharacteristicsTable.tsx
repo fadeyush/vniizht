@@ -3,8 +3,6 @@ import classes from './CharacteristicsTable.module.scss'
 import MyTable from '../../UI/MyTable/MyTable';
 import { MyTableProps, tableValueEnum } from '../../types/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { useDebouncedCallback } from 'use-debounce';
-import { PayloadActionSetValid } from '../../types/validCell';
 import { validCellSlice } from '../../store/reducers/ValidCellSlice';
 
 const CharacteristicsTable: FC<MyTableProps> = ({id, title, tbodyArr, theadArr, tbodyElem}) => {
